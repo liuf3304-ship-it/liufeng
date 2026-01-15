@@ -1,0 +1,117 @@
+<!-- profile.wxml -->
+<view class="container">
+  <!-- 用户信息卡片 -->
+  <view class="user-info card" bindtap="goToUserInfo">
+    <image class="avatar" src="{{userInfo.avatar || '/assets/images/default-avatar.png'}}"></image>
+    <view class="user-details">
+      <view class="user-name">{{userInfo.nickname || '未设置昵称'}}</view>
+      <view class="user-desc">{{userInfo.examType || '未设置考试类型'}} · {{userInfo.examDate || '未设置考试日期'}}</view>
+      <view class="user-id">ID: {{userInfo.id || '未知'}}</view>
+    </view>
+    <image src="/assets/icons/arrow-right.png" class="arrow-icon"></image>
+  </view>
+
+  <!-- 学习统计 -->
+  <view class="study-stats card">
+    <view class="stats-title">学习统计</view>
+    <view class="stats-grid">
+      <view class="stat-item" bindtap="goToCheckin">
+        <view class="stat-value">{{userStats.checkinDays || 0}}</view>
+        <view class="stat-label">连续打卡</view>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item" bindtap="goToCheckin">
+        <view class="stat-value">{{userStats.totalCheckins || 0}}</view>
+        <view class="stat-label">总打卡天数</view>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item" bindtap="goToPartners">
+        <view class="stat-value">{{userStats.partnerCount || 0}}</view>
+        <view class="stat-label">我的搭子</view>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <view class="stat-value">{{userStats.studyHours || 0}}</view>
+        <view class="stat-label">总学习时长(h)</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="menu-section">
+    <view class="menu-title">我的功能</view>
+    <view class="menu-list card">
+      <view class="menu-item" bindtap="goToPartners">
+        <image src="/assets/icons/partner.png" class="menu-icon"></image>
+        <text class="menu-text">我的搭子</text>
+        <image src="/assets/icons/arrow-right.png" class="arrow-icon"></image>
+      </view>
+      <view class="divider"></view>
+      <view class="menu-item" bindtap="goToCheckin">
+        <image src="/assets/icons/checkin.png" class="menu-icon"></image>
+        <text class="menu-text">打卡记录</text>
+        <image src="/assets/icons/arrow-right.png" class="arrow-icon"></image>
+      </view>
+      <view class="divider"></view>
+      <view class="menu-item" bindtap="goToNotifications">
+        <image src="/assets/icons/notification.png" class="menu-icon"></image>
+        <text class="menu-text">消息通知</text>
+        <view class="badge" wx:if="{{notificationCount > 0}}">{{notificationCount}}</view>
+        <image src="/assets/icons/arrow-right.png" class="arrow-icon"></image>
+      </view>
+      <view class="divider"></view>
+      <view class="menu-item" bindtap="goToDeposit">
+        <image src="/assets/icons/deposit.png" class="menu-icon"></image>
+        <text class="menu-text">押金管理</text>
+        <image src="/assets/icons/arrow-right.png" class="arrow-icon"></image>
+      </view>
+      <view class="divider"></view>
+      <view class="menu-item" bindtap="goToAchievements">
+        <image src="/assets/icons/achievement.png" class="menu-icon"></image>
+        <text class="menu-text">我的成就</text>
+        <image src="/assets/icons/arrow-right.png" class="arrow-icon"></image>
+      </view>
+      <view class="divider"></view>
+      <view class="menu-item" bindtap="goToDataAnalysis">
+        <image src="/assets/icons/analysis.png" class="menu-icon"></image>
+        <text class="menu-text">数据复盘</text>
+        <image src="/assets/icons/arrow-right.png" class="arrow-icon"></image>
+      </view>
+    </view>
+  </view>
+
+  <!-- 设置菜单 -->
+  <view class="menu-section">
+    <view class="menu-title">设置</view>
+    <view class="menu-list card">
+      <view class="menu-item" bindtap="goToUserInfo">
+        <image src="/assets/icons/user.png" class="menu-icon"></image>
+        <text class="menu-text">个人信息</text>
+        <image src="/assets/icons/arrow-right.png" class="arrow-icon"></image>
+      </view>
+      <view class="divider"></view>
+      <view class="menu-item" bindtap="goToSettings">
+        <image src="/assets/icons/settings.png" class="menu-icon"></image>
+        <text class="menu-text">应用设置</text>
+        <image src="/assets/icons/arrow-right.png" class="arrow-icon"></image>
+      </view>
+      <view class="divider"></view>
+      <view class="menu-item" bindtap="showAbout">
+        <image src="/assets/icons/about.png" class="menu-icon"></image>
+        <text class="menu-text">关于我们</text>
+        <image src="/assets/icons/arrow-right.png" class="arrow-icon"></image>
+      </view>
+      <view class="divider"></view>
+      <view class="menu-item" bindtap="goToFeedback">
+        <image src="/assets/icons/feedback.png" class="menu-icon"></image>
+        <text class="menu-text">意见反馈</text>
+        <image src="/assets/icons/arrow-right.png" class="arrow-icon"></image>
+      </view>
+      <view class="divider"></view>
+      <view class="menu-item" bindtap="logout">
+        <image src="/assets/icons/logout.png" class="menu-icon"></image>
+        <text class="menu-text" style="color: #ff3b30;">退出登录</text>
+      </view>
+    </view>
+  </view>
+</view>

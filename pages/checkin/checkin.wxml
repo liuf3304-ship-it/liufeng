@@ -1,0 +1,84 @@
+<!-- checkin.wxml -->
+<view class="container">
+  <view class="checkin-header card">
+    <view class="checkin-date">{{currentDate}}</view>
+    <view class="checkin-status" wx:if="{{hasCheckedIn}}">
+      <image src="/assets/icons/checkin-active.png" class="status-icon"></image>
+      <text class="status-text">今日已打卡</text>
+      <text class="checkin-time">({{checkinTime}})</text>
+    </view>
+    <view class="checkin-status" wx:else>
+      <image src="/assets/icons/checkin.png" class="status-icon"></image>
+      <text class="status-text">今日未打卡</text>
+    </view>
+  </view>
+
+  <!-- 打卡表单 -->
+  <form bindsubmit="submitCheckin" wx:if="{{!hasCheckedIn}}">
+    <view class="checkin-form card">
+      <view class="form-item">
+        <text class="form-label">今日学习时长</text>
+        <view class="hours-input">
+          <input type="number" name="studyHours" placeholder="请输入学习时长（小时）" value="{{studyHours}}" bindinput="onStudyHoursChange" class="input" />
+          <text class="unit">小时</text>
+        </view>
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">今日学习内容</text>
+        <textarea name="content" placeholder="请描述今日学习内容" value="{{content}}" bindinput="onContentChange" class="textarea" auto-height="{{true}}" maxlength="500"></textarea>
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">学习成果（可选）</text>
+        <textarea name="achievement" placeholder="请描述今日学习成果" value="{{achievement}}" bindinput="onAchievementChange" class="textarea" auto-height="{{true}}" maxlength="300"></textarea>
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">明日学习计划（可选）</text>
+        <textarea name="plan" placeholder="请制定明日学习计划" value="{{plan}}" bindinput="onPlanChange" class="textarea" auto-height="{{true}}" maxlength="300"></textarea>
+      </view>
+
+      <button class="btn" form-type="submit" loading="{{isSubmitting}}">提交打卡</button>
+    </view>
+  </form>
+
+  <!-- 打卡成功信息 -->
+  <view class="checkin-success card" wx:if="{{hasCheckedIn}}">
+    <view class="success-icon">
+      <icon type="success" size="60" color="#4cd964"></icon>
+    </view>
+    <view class="success-title">打卡成功！</view>
+    <view class="success-text">恭喜你完成今日打卡，继续保持！</view>
+    <view class="checkin-stats">
+      <view class="stat-item">
+        <text class="stat-value">{{checkinDays}}</text>
+        <text class="stat-label">连续打卡天数</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-value">{{totalCheckins}}</text>
+        <text class="stat-label">总打卡天数</text>
+      </view>
+    </view>
+    <button class="btn" bindtap="viewHistory">查看打卡历史</button>
+  </view>
+
+  <!-- 打卡历史 -->
+  <view class="checkin-history card">
+    <view class="history-title">近期打卡记录</view>
+    <scroll-view scroll-y="true" class="history-list">
+      <view class="history-item" wx:for="{{recentCheckins}}" wx:key="id">
+        <view class="history-date">{{item.checkinDate}}</view>
+        <view class="history-content">{{item.content}}</view>
+        <view class="history-footer">
+          <text class="history-hours">{{item.studyHours}}小时</text>
+          <text class="history-time">{{item.checkinTime}}</text>
+        </view>
+      </view>
+      <view class="empty" wx:if="{{recentCheckins.length === 0}}">
+        <text>暂无打卡记录</text>
+      </view>
+    </scroll-view>
+  </view>
+</view>

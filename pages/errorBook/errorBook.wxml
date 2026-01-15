@@ -1,0 +1,190 @@
+<!-- errorBook.wxml -->
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <text class="page-title">个人错题本</text>
+    <view class="header-buttons">
+      <button class="btn btn-secondary" bindtap="exportPDF">
+        <text class="btn-text">一键导出PDF</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 薄弱模块筛选栏 -->
+  <scroll-view scroll-x="true" class="filter-scroll">
+    <view class="filter-tabs">
+      <view 
+        class="filter-tab {{selectedModule === 'all' ? 'active' : ''}}" 
+        bindtap="onModuleFilter" 
+        data-module="all"
+      >
+        <text class="tab-text">全部</text>
+      </view>
+      <view 
+        class="filter-tab {{selectedModule === '电磁感应' ? 'active' : ''}}" 
+        bindtap="onModuleFilter" 
+        data-module="电磁感应"
+      >
+        <text class="tab-text">电磁感应</text>
+      </view>
+      <view 
+        class="filter-tab {{selectedModule === '天体运动' ? 'active' : ''}}" 
+        bindtap="onModuleFilter" 
+        data-module="天体运动"
+      >
+        <text class="tab-text">天体运动</text>
+      </view>
+      <view 
+        class="filter-tab {{selectedModule === '力学' ? 'active' : ''}}" 
+        bindtap="onModuleFilter" 
+        data-module="力学"
+      >
+        <text class="tab-text">力学</text>
+      </view>
+      <view 
+        class="filter-tab {{selectedModule === '热学' ? 'active' : ''}}" 
+        bindtap="onModuleFilter" 
+        data-module="热学"
+      >
+        <text class="tab-text">热学</text>
+      </view>
+      <view 
+        class="filter-tab {{selectedModule === '光学' ? 'active' : ''}}" 
+        bindtap="onModuleFilter" 
+        data-module="光学"
+      >
+        <text class="tab-text">光学</text>
+      </view>
+      <view 
+        class="filter-tab {{selectedModule === '近代物理' ? 'active' : ''}}" 
+        bindtap="onModuleFilter" 
+        data-module="近代物理"
+      >
+        <text class="tab-text">近代物理</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 错题列表 -->
+  <view class="error-list">
+    <!-- 加载中 -->
+    <view wx:if="{{isLoading && errorQuestions.length === 0}}" class="loading-container">
+      <view class="loading-skeleton" wx:for="[0, 1, 2]" wx:key="index">
+        <view class="skeleton-item"></view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view wx:elif="{{!isLoading && errorQuestions.length === 0}}" class="empty-container">
+      <image src="/assets/icons/error.png" class="empty-icon"></image>
+      <text class="empty-text">还没有错题，点击右下角上传第一个错题吧</text>
+    </view>
+
+    <!-- 错题列表 -->
+    <view wx:else class="error-items">
+      <view class="error-item" wx:for="{{errorQuestions}}" wx:key="id" bindtap="goToQuestionDetail" data-id="{{item.id}}">
+        <!-- 错题内容区域 -->
+        <view class="question-main">
+          <!-- 题干缩略 -->
+          <view class="question-content">
+            <text class="question-text">{{item.questionContent.substring(0, 100)}}{{item.questionContent.length > 100 ? '...' : ''}}</text>
+          </view>
+          
+          <!-- 错题信息 -->
+          <view class="question-meta">
+            <view class="meta-item">
+              <text class="meta-label">考点：</text>
+              <text class="meta-value">{{item.考点 || '未填写'}}</text>
+            </view>
+            <view class="meta-item">
+              <text class="meta-label">创建时间：</text>
+              <text class="meta-value">{{item.createTime}}</text>
+            </view>
+          </view>
+        </view>
+        
+        <!-- 错误原因标签 -->
+        <view class="error-reason-tag">
+          <text class="reason-text">{{item.errorReason || '未填写'}}</text>
+        </view>
+        
+        <!-- 收藏按钮 -->
+        <view class="collect-btn" bindtap="collectQuestion" data-id="{{item.id}}" data-collected="{{item.isCollected}}">
+          <text class="collect-icon {{item.isCollected ? 'collected' : ''}}">{{item.isCollected ? '★' : '☆'}}</text>
+        </view>
+      </view>
+
+      <!-- 加载更多 -->
+      <view wx:if="{{hasMore}}" class="load-more" bindtap="loadMoreQuestions">
+        <text class="load-more-text">加载更多</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 固定底部上传按钮 -->
+  <view class="add-btn" bindtap="showAddModal">
+    <image src="/assets/icons/camera.png" class="add-icon"></image>
+  </view>
+
+  <!-- 上传错题模态框 -->
+  <view class="modal-overlay" wx:if="{{showAddModal}}" bindtap="hideAddModal"></view>
+  <view class="modal-content" wx:if="{{showAddModal}}" catchtap="">
+    <view class="modal-header">
+      <text class="modal-title">上传错题</text>
+      <text class="modal-close" bindtap="hideAddModal">×</text>
+    </view>
+    <view class="modal-body">
+      <view class="upload-options">
+        <view class="upload-option" bindtap="showManualInput">
+          <image src="/assets/icons/input.png" class="option-icon"></image>
+          <text class="option-text">手动输入QuestionId</text>
+        </view>
+        <view class="upload-option" bindtap="showPhotoUpload">
+          <image src="/assets/icons/camera.png" class="option-icon"></image>
+          <text class="option-text">拍照识别</text>
+        </view>
+      </view>
+      
+      <!-- 手动输入表单 -->
+      <view class="manual-input" wx:if="{{showManualInputForm}}">
+        <view class="form-item">
+          <text class="form-label">题目ID</text>
+          <input 
+            class="form-input" 
+            placeholder="请输入题目ID" 
+            value="{{newQuestionId}}" 
+            bindinput="onQuestionIdInput"
+          />
+        </view>
+        <view class="form-item">
+          <text class="form-label">错误原因</text>
+          <textarea 
+            class="form-textarea" 
+            placeholder="请输入错误原因" 
+            value="{{newErrorReason}}" 
+            bindinput="onErrorReasonInput"
+            auto-height
+          ></textarea>
+        </view>
+        <view class="form-item switch-item">
+          <text class="form-label">共享到错题广场</text>
+          <switch 
+            checked="{{newShareStatus}}" 
+            bindchange="onShareStatusChange"
+          />
+        </view>
+        <view class="form-tip">
+          <text class="tip-text">提示：共享后其他用户可以在错题广场查看你的错题</text>
+        </view>
+      </view>
+    </view>
+    <view class="modal-footer" wx:if="{{showManualInputForm}}">
+      <button class="btn btn-secondary" bindtap="hideAddModal">
+        <text class="btn-text">取消</text>
+      </button>
+      <button class="btn btn-primary" bindtap="uploadErrorQuestion">
+        <text class="btn-text">确定上传</text>
+      </button>
+    </view>
+  </view>
+</view>

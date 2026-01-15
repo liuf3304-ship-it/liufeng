@@ -1,0 +1,79 @@
+<!-- profile/deposit.wxml -->
+<view class="container">
+  <view class="page-title">押金管理</view>
+
+  <view class="deposit-card card">
+    <view class="deposit-header">
+      <view class="deposit-title">当前押金余额</view>
+      <view class="deposit-amount">¥{{balance || 0.00}}</view>
+    </view>
+    <view class="deposit-status" wx:if="{{depositStatus === 'active'}}">
+      <view class="status-indicator active"></view>
+      <text class="status-text">押金已缴纳，您可以正常使用所有功能</text>
+    </view>
+    <view class="deposit-status" wx:elif="{{depositStatus === 'inactive'}}">
+      <view class="status-indicator inactive"></view>
+      <text class="status-text">押金未缴纳，部分功能受限</text>
+    </view>
+    <view class="deposit-status" wx:else>
+      <view class="status-indicator refunding"></view>
+      <text class="status-text">押金退款中，预计3-5个工作日到账</text>
+    </view>
+  </view>
+
+  <view class="deposit-actions">
+    <button class="btn btn-primary" wx:if="{{depositStatus === 'inactive'}}" bindtap="payDeposit">
+      缴纳押金
+    </button>
+    <button class="btn btn-secondary" wx:elif="{{depositStatus === 'active'}}" bindtap="applyRefund">
+      申请退款
+    </button>
+    <button class="btn btn-disabled" wx:else disabled="{{true}}">
+      退款处理中
+    </button>
+  </view>
+
+  <view class="deposit-info card">
+    <view class="info-item">
+      <text class="info-label">押金金额</text>
+      <text class="info-value">¥99.00</text>
+    </view>
+    <view class="divider"></view>
+    <view class="info-item">
+      <text class="info-label">押金用途</text>
+      <text class="info-value">保障学习搭子双方权益，督促学习打卡</text>
+    </view>
+    <view class="divider"></view>
+    <view class="info-item">
+      <text class="info-label">退款条件</text>
+      <text class="info-value">无违规记录，可随时申请退款</text>
+    </view>
+    <view class="divider"></view>
+    <view class="info-item">
+      <text class="info-label">退款周期</text>
+      <text class="info-value">3-5个工作日</text>
+    </view>
+  </view>
+
+  <view class="deposit-history">
+    <view class="history-title">押金记录</view>
+    <view class="history-list card">
+      <view class="history-item" wx:for="{{depositHistory}}" wx:key="id">
+        <view class="history-info">
+          <view class="history-type">{{item.type === 'pay' ? '缴纳押金' : '押金退款'}}</view>
+          <view class="history-time">{{item.createTime}}</view>
+        </view>
+        <view class="history-amount" wx:if="{{item.type === 'pay'}}">
+          -¥{{item.amount.toFixed(2)}}
+        </view>
+        <view class="history-amount refund" wx:else>
+          +¥{{item.amount.toFixed(2)}}
+        </view>
+      </view>
+
+      <view class="empty" wx:if="{{depositHistory.length === 0}}">
+        <text>暂无押金记录</text>
+      </view>
+    </view>
+  </view>
+</view>

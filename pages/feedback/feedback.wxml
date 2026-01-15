@@ -1,0 +1,105 @@
+<!-- feedback.wxml -->
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <text class="page-title">意见反馈</text>
+  </view>
+
+  <!-- 反馈表单 -->
+  <form class="feedback-form" bindsubmit="submitFeedback">
+    <!-- 反馈类型 -->
+    <view class="form-section">
+      <text class="section-title">反馈类型</text>
+      <view class="type-options">
+        <view 
+          class="type-option {{feedbackType === 'bug' ? 'active' : ''}}" 
+          bindtap="selectType" 
+          data-type="bug"
+        >
+          <text class="type-icon">🐛</text>
+          <text class="type-text">Bug报告</text>
+        </view>
+        <view 
+          class="type-option {{feedbackType === 'suggestion' ? 'active' : ''}}" 
+          bindtap="selectType" 
+          data-type="suggestion"
+        >
+          <text class="type-icon">💡</text>
+          <text class="type-text">功能建议</text>
+        </view>
+        <view 
+          class="type-option {{feedbackType === 'complaint' ? 'active' : ''}}" 
+          bindtap="selectType" 
+          data-type="complaint"
+        >
+          <text class="type-icon">😔</text>
+          <text class="type-text">投诉</text>
+        </view>
+        <view 
+          class="type-option {{feedbackType === 'other' ? 'active' : ''}}" 
+          bindtap="selectType" 
+          data-type="other"
+        >
+          <text class="type-icon">📝</text>
+          <text class="type-text">其他</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 反馈内容 -->
+    <view class="form-section">
+      <text class="section-title">反馈内容</text>
+      <textarea 
+        class="content-input" 
+        placeholder="请详细描述您遇到的问题或建议..." 
+        value="{{feedbackContent}}" 
+        bindinput="onContentInput"
+        maxlength="1000"
+        auto-height
+      ></textarea>
+      <text class="char-count">{{feedbackContent.length}}/1000</text>
+    </view>
+
+    <!-- 图片上传 -->
+    <view class="form-section">
+      <text class="section-title">上传图片（可选）</text>
+      <view class="upload-section">
+        <view class="image-list">
+          <view class="image-item" wx:for="{{images}}" wx:key="index">
+            <image src="{{item}}" class="uploaded-image"></image>
+            <view class="delete-icon" bindtap="deleteImage" data-index="{{index}}">×</view>
+          </view>
+          <view class="add-image" wx:if="{{images.length < 3}}" bindtap="chooseImage">
+            <text class="add-icon">+</text>
+            <text class="add-text">添加图片</text>
+          </view>
+        </view>
+        <text class="upload-tip">最多可上传3张图片，单张不超过10MB</text>
+      </view>
+    </view>
+
+    <!-- 联系方式 -->
+    <view class="form-section">
+      <text class="section-title">联系方式（可选）</text>
+      <input 
+        class="contact-input" 
+        placeholder="请留下您的联系方式，方便我们及时反馈处理结果" 
+        value="{{contactInfo}}" 
+        bindinput="onContactInput"
+        maxlength="50"
+      />
+    </view>
+
+    <!-- 提交按钮 -->
+    <view class="submit-section">
+      <button 
+        class="submit-btn" 
+        formType="submit" 
+        disabled="{{!canSubmit}}"
+      >
+        提交反馈
+      </button>
+      <text class="submit-tip">我们会尽快处理您的反馈，感谢您的支持与理解！</text>
+    </view>
+  </form>
+</view>

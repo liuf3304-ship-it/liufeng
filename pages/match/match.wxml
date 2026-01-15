@@ -1,0 +1,103 @@
+<!-- match.wxml -->
+<view class="container">
+  <view class="match-header card">
+    <view class="match-title">匹配备考搭子</view>
+    <view class="match-desc">基于你的学习计划和备考目标，为你推荐最合适的学习搭子</view>
+  </view>
+
+  <!-- 匹配条件 -->
+  <view class="match-conditions card">
+    <view class="conditions-title">匹配条件</view>
+    <form bindsubmit="startMatching">
+      <view class="form-item">
+        <text class="form-label">考试类型</text>
+        <picker bindchange="onExamTypeChange" value="{{examTypeIndex}}" range="{{examTypes}}">
+          <view class="picker">
+            {{examTypes[examTypeIndex]}}
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">备考阶段</text>
+        <picker bindchange="onStageChange" value="{{stageIndex}}" range="{{stages}}">
+          <view class="picker">
+            {{stages[stageIndex]}}
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">每日学习时长</text>
+        <slider bindchange="onStudyHoursChange" min="1" max="12" value="{{studyHours}}" show-value />
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">匹配数量</text>
+        <radio-group bindchange="onMatchCountChange">
+          <label class="radio-item">
+            <radio value="1" checked="{{matchCount === 1}}" />
+            <text>1人</text>
+          </label>
+          <label class="radio-item">
+            <radio value="2" checked="{{matchCount === 2}}" />
+            <text>2人</text>
+          </label>
+          <label class="radio-item">
+            <radio value="3" checked="{{matchCount === 3}}" />
+            <text>3人</text>
+          </label>
+        </radio-group>
+      </view>
+
+      <button class="btn" form-type="submit" loading="{{isMatching}}">
+        {{isMatching ? '匹配中...' : '开始匹配'}}
+      </button>
+    </form>
+  </view>
+
+  <!-- 匹配结果 -->
+  <view class="match-results" wx:if="{{matches.length > 0}}">
+    <view class="results-title">匹配结果</view>
+    <view class="match-list">
+      <view class="match-item card" wx:for="{{matches}}" wx:key="id">
+        <view class="partner-info">
+          <image class="avatar" src="{{item.avatar || '/assets/images/default-avatar.png'}}"></image>
+          <view class="partner-details">
+            <view class="partner-name">{{item.nickname}}</view>
+            <view class="partner-exam">{{item.examType}} · {{item.examDate}}</view>
+            <view class="partner-stats">
+              <text class="match-score">匹配度: {{item.matchScore}}%</text>
+              <text class="study-hours">学习时长: {{item.studyHours}}h/天</text>
+            </view>
+          </view>
+        </view>
+        <view class="partner-desc">
+          {{item.selfIntroduction || '暂无自我介绍'}}
+        </view>
+        <button class="btn btn-primary" bindtap="sendRequest" data-id="{{item.id}}">
+          发送请求
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 匹配规则说明 -->
+  <view class="match-rules card">
+    <view class="rules-title">匹配规则</view>
+    <view class="rules-list">
+      <view class="rule-item">
+        <icon type="success" size="20" color="#007aff"></icon>
+        <text>基于考试类型、备考阶段和学习时长进行智能匹配</text>
+      </view>
+      <view class="rule-item">
+        <icon type="success" size="20" color="#007aff"></icon>
+        <text>匹配成功后可查看对方详细信息</text>
+      </view>
+      <view class="rule-item">
+        <icon type="success" size="20" color="#007aff"></icon>
+        <text>双方同意后即可成为学习搭子</text>
+      </view>
+    </view>
+  </view>
+</view>

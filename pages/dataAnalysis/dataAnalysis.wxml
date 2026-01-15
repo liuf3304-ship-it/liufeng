@@ -1,0 +1,165 @@
+<!-- dataAnalysis.wxml -->
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <text class="page-title">数据复盘中心</text>
+    <view class="header-actions">
+      <button class="btn btn-secondary" bindtap="refreshData">
+        <text class="btn-text">刷新数据</text>
+      </button>
+      <button class="btn btn-secondary" bindtap="exportData">
+        <text class="btn-text">导出数据</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 时间范围选择 -->
+  <view class="time-range-section">
+    <text class="range-label">时间范围：</text>
+    <view class="range-tabs">
+      <view 
+        class="range-tab {{timeRange === '7' ? 'active' : ''}}" 
+        bindtap="onTimeRangeChange" 
+        data-range="7"
+      >
+        <text class="tab-text">近7天</text>
+      </view>
+      <view 
+        class="range-tab {{timeRange === '30' ? 'active' : ''}}" 
+        bindtap="onTimeRangeChange" 
+        data-range="30"
+      >
+        <text class="tab-text">近30天</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 数据概览 - 顶部统计卡片 -->
+  <view class="summary-section">
+    <!-- 加载中 -->
+    <view wx:if="{{isLoading}}" class="loading-skeleton">
+      <view class="skeleton-card"></view>
+    </view>
+    
+    <!-- 数据概览卡片 -->
+    <view wx:elif="{{dataAnalysis}}" class="summary-card">
+      <view class="summary-item">
+        <text class="summary-value">{{dataAnalysis.summary.totalStudyHours}}</text>
+        <text class="summary-label">累计学习时长</text>
+      </view>
+      <view class="summary-item">
+        <text class="summary-value">{{dataAnalysis.summary.examAverageScore}}</text>
+        <text class="summary-label">模考平均分</text>
+      </view>
+      <view class="summary-item">
+        <text class="summary-value">{{dataAnalysis.summary.totalErrorQuestions}}</text>
+        <text class="summary-label">错题总数</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 图表类型选择 -->
+  <view class="chart-tabs-section">
+    <text class="section-title">数据趋势</text>
+    <view class="chart-tabs">
+      <view 
+        class="chart-tab {{selectedChart === 'checkin' ? 'active' : ''}}" 
+        bindtap="onChartChange" 
+        data-chart="checkin"
+      >
+        <text class="tab-text">打卡趋势</text>
+      </view>
+      <view 
+        class="chart-tab {{selectedChart === 'weak' ? 'active' : ''}}" 
+        bindtap="onChartChange" 
+        data-chart="weak"
+      >
+        <text class="tab-text">薄弱模块</text>
+      </view>
+      <view 
+        class="chart-tab {{selectedChart === 'exam' ? 'active' : ''}}" 
+        bindtap="onChartChange" 
+        data-chart="exam"
+      >
+        <text class="tab-text">模考分数</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 图表区域 -->
+  <view class="chart-section">
+    <!-- 加载中 -->
+    <view wx:if="{{isLoading}}" class="chart-content">
+      <view class="chart-container">
+        <text class="chart-title">数据加载中...</text>
+        <view class="chart-skeleton"></view>
+      </view>
+    </view>
+    
+    <!-- 图表内容 -->
+    <view wx:elif="{{dataAnalysis}}" class="chart-content">
+      <!-- 打卡趋势图表 -->
+      <view wx:if="{{selectedChart === 'checkin'}}" class="chart-container">
+        <text class="chart-title">打卡趋势</text>
+        <view class="chart-wrapper">
+          <view class="chart-placeholder">
+            <text class="placeholder-text">打卡趋势折线图</text>
+            <text class="placeholder-subtext">显示近{{timeRange}}天的打卡情况</text>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 薄弱模块图表 -->
+      <view wx:elif="{{selectedChart === 'weak'}}" class="chart-container">
+        <text class="chart-title">薄弱模块占比</text>
+        <view class="chart-wrapper">
+          <view class="chart-placeholder">
+            <text class="placeholder-text">薄弱模块饼图</text>
+            <text class="placeholder-subtext">显示各模块错题占比</text>
+          </view>
+        </view>
+        <!-- 薄弱模块列表 -->
+        <view class="weak-module-list">
+          <view class="module-item" wx:for="{{dataAnalysis.weakModuleRatio}}" wx:key="name">
+            <view class="module-info">
+              <text class="module-name">{{item.name}}</text>
+              <text class="module-count">{{item.count}}道</text>
+            </view>
+            <view class="module-bar">
+              <view class="bar-fill" style="width: {{item.ratio}}%"></view>
+            </view>
+            <text class="module-ratio">{{item.ratio}}%</text>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 模考分数图表 -->
+      <view wx:elif="{{selectedChart === 'exam'}}" class="chart-container">
+        <text class="chart-title">模考分数趋势</text>
+        <view class="chart-wrapper">
+          <view class="chart-placeholder">
+            <text class="placeholder-text">模考分数柱状图</text>
+            <text class="placeholder-subtext">显示历次模考分数变化</text>
+          </view>
+        </view>
+        <!-- 模考分数列表 -->
+        <view class="exam-score-list">
+          <view class="score-item" wx:for="{{dataAnalysis.examScoreTrend}}" wx:key="date">
+            <view class="score-info">
+              <text class="score-date">{{item.date}}</text>
+              <text class="score-name">{{item.examName}}</text>
+            </view>
+            <text class="score-value {{item.isHighest ? 'highest' : ''}}">{{item.score}}分</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 空状态 -->
+    <view wx:else class="chart-content">
+      <view class="empty-chart">
+        <text class="empty-text">暂无数据</text>
+      </view>
+    </view>
+  </view>
+</view>

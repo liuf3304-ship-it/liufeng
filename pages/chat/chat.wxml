@@ -1,0 +1,58 @@
+<!-- chat.wxml -->
+<view class="chat-container">
+  <!-- 消息列表 -->
+  <scroll-view
+    class="message-list"
+    scroll-y="true"
+    scroll-top="{{scrollTop}}"
+    bindscrolltoupper="loadMore"
+    enable-back-to-top="true"
+  >
+    <!-- 加载更多提示 -->
+    <view wx:if="{{isLoading && page > 1}}" class="loading-more">
+      <text>加载中...</text>
+    </view>
+    
+    <!-- 消息项 -->
+    <view wx:for="{{messages}}" wx:key="id" class="message-item">
+      <view
+        class="message-content {{item.Sender.id == app.globalData.userInfo.id ? 'my-message' : 'other-message'}}"
+      >
+        <image
+          class="avatar"
+          src="{{item.Sender.avatar || '/assets/icons/default-avatar.png'}}"
+        ></image>
+        <view class="message-bubble">
+          <text class="message-text">{{item.content}}</text>
+          <text class="message-time">{{item.createdAt}}</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 没有更多消息提示 -->
+    <view wx:if="{{!hasMore && messages.length > 0}}" class="no-more">
+      <text>没有更多消息了</text>
+    </view>
+    
+    <!-- 空消息提示 -->
+    <view wx:if="{{!isLoading && messages.length == 0}}" class="empty-messages">
+      <text>还没有聊天记录，开始聊天吧！</text>
+    </view>
+  </scroll-view>
+  
+  <!-- 输入区域 -->
+  <view class="input-container">
+    <textarea
+      class="input-text"
+      placeholder="输入消息..."
+      placeholder-class="placeholder"
+      value="{{inputContent}}"
+      bindinput="onInputChange"
+      auto-height="true"
+      maxlength="500"
+    ></textarea>
+    <button class="send-btn" bindtap="sendMessage" disabled="{{!inputContent.trim()}}">
+      发送
+    </button>
+  </view>
+</view>

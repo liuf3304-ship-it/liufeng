@@ -1,0 +1,116 @@
+<!-- profile/partners.wxml -->
+<view class="container">
+  <view class="page-title">我的搭子</view>
+
+  <!-- 搭子类型切换 -->
+  <view class="partner-tabs">
+    <view class="tab-item {{activeTab === 'current' ? 'active' : ''}}" bindtap="switchTab" data-tab="current">
+      当前搭子
+    </view>
+    <view class="tab-item {{activeTab === 'history' ? 'active' : ''}}" bindtap="switchTab" data-tab="history">
+      历史搭子
+    </view>
+  </view>
+
+  <!-- 当前搭子 -->
+  <view class="partner-list" wx:if="{{activeTab === 'current'}}">
+    <view class="partner-item card" wx:for="{{currentPartners}}" wx:key="id">
+      <view class="partner-header">
+        <image src="{{item.avatar || '/assets/images/default-avatar.png'}}" class="avatar"></image>
+        <view class="partner-info">
+          <view class="partner-name">{{item.nickname}}</view>
+          <view class="partner-status">
+            <view class="status-dot {{item.isOnline ? 'online' : 'offline'}}"></view>
+            <text>{{item.isOnline ? '在线' : '离线'}}</text>
+          </view>
+        </view>
+        <view class="partner-score">匹配度 {{item.matchScore}}%</view>
+      </view>
+
+      <view class="partner-details">
+        <view class="detail-item">
+          <text class="detail-label">考试类型:</text>
+          <text class="detail-value">{{item.examType}}</text>
+        </view>
+        <view class="detail-item">
+          <text class="detail-label">考试日期:</text>
+          <text class="detail-value">{{item.examDate}}</text>
+        </view>
+        <view class="detail-item">
+          <text class="detail-label">学习时长:</text>
+          <text class="detail-value">{{item.studyHours}}小时/天</text>
+        </view>
+        <view class="detail-item">
+          <text class="detail-label">共同打卡:</text>
+          <text class="detail-value">{{item.sharedCheckins}}天</text>
+        </view>
+      </view>
+
+      <view class="partner-actions">
+        <button class="btn btn-sm btn-primary" bindtap="chatWithPartner" data-id="{{item.id}}">
+          发起聊天
+        </button>
+        <button class="btn btn-sm btn-secondary" bindtap="viewPartnerStats" data-id="{{item.id}}">
+          查看统计
+        </button>
+        <button class="btn btn-sm btn-danger" bindtap="dissolvePartner" data-id="{{item.id}}">
+          解除关系
+        </button>
+      </view>
+    </view>
+
+    <view class="empty" wx:if="{{currentPartners.length === 0}}">
+      <image src="/assets/icons/partner-empty.png" class="empty-icon"></image>
+      <text class="empty-text">暂无当前搭子</text>
+      <button class="btn btn-primary" bindtap="goToMatch">
+        去匹配搭子
+      </button>
+    </view>
+  </view>
+
+  <!-- 历史搭子 -->
+  <view class="partner-list" wx:if="{{activeTab === 'history'}}">
+    <view class="partner-item card" wx:for="{{historyPartners}}" wx:key="id">
+      <view class="partner-header">
+        <image src="{{item.avatar || '/assets/images/default-avatar.png'}}" class="avatar"></image>
+        <view class="partner-info">
+          <view class="partner-name">{{item.nickname}}</view>
+          <view class="partner-status">
+            <text class="history-status">{{item.dissolveReason || '已解除关系'}}</text>
+          </view>
+        </view>
+        <view class="partner-score">匹配度 {{item.matchScore}}%</view>
+      </view>
+
+      <view class="partner-details">
+        <view class="detail-item">
+          <text class="detail-label">考试类型:</text>
+          <text class="detail-value">{{item.examType}}</text>
+        </view>
+        <view class="detail-item">
+          <text class="detail-label">共同打卡:</text>
+          <text class="detail-value">{{item.sharedCheckins}}天</text>
+        </view>
+        <view class="detail-item">
+          <text class="detail-label">合作时长:</text>
+          <text class="detail-value">{{item.cooperationDays}}天</text>
+        </view>
+        <view class="detail-item">
+          <text class="detail-label">解除时间:</text>
+          <text class="detail-value">{{item.dissolveTime}}</text>
+        </view>
+      </view>
+
+      <view class="partner-actions">
+        <button class="btn btn-sm btn-primary" bindtap="matchAgain" data-id="{{item.id}}">
+          再次匹配
+        </button>
+      </view>
+    </view>
+
+    <view class="empty" wx:if="{{historyPartners.length === 0}}">
+      <image src="/assets/icons/partner-empty.png" class="empty-icon"></image>
+      <text class="empty-text">暂无历史搭子</text>
+    </view>
+  </view>
+</view>

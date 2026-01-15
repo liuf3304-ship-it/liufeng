@@ -1,0 +1,52 @@
+<!-- login.wxml -->
+<view class="container">
+  <view class="login-header">
+    <image src="/assets/images/logo.png" class="logo"></image>
+    <view class="app-name">备考搭子</view>
+    <view class="app-slogan">找到志同道合的学习伙伴，一起备考上岸</view>
+  </view>
+
+  <view class="login-form card">
+    <view class="form-item" wx:if="{{!showPhoneLogin}}">
+      <input type="text" placeholder="请输入手机号" value="{{phone}}" bindinput="onPhoneChange" class="input" />
+    </view>
+
+    <view class="form-item" wx:if="{{!showPhoneLogin}}">
+      <view class="verification-code">
+        <input type="number" placeholder="请输入验证码" value="{{verificationCode}}" bindinput="onVerificationCodeChange" class="input code-input" />
+        <button class="btn-get-code" bindtap="getVerificationCode" disabled="{{countdown > 0}}">
+          {{countdown > 0 ? `${countdown}s后重新获取` : '获取验证码'}}
+        </button>
+      </view>
+    </view>
+
+    <button class="btn btn-primary" form-type="submit" bindtap="login" wx:if="{{!showPhoneLogin}}">
+      登录/注册
+    </button>
+
+    <button class="btn btn-wechat" bindtap="wechatLogin">
+      <image src="/assets/icons/wechat.png" class="wechat-icon"></image>
+      微信一键登录
+    </button>
+
+    <view class="login-footer">
+      <text bindtap="toggleLoginType">
+        {{showPhoneLogin ? '使用手机号登录' : '使用验证码登录'}}
+      </text>
+    </view>
+
+    <view class="agreement">
+      <checkbox checked="{{agreeTerms}}" bindchange="onAgreementChange"></checkbox>
+      <text>我已阅读并同意</text>
+      <text class="agreement-link" bindtap="showTerms">《用户协议》</text>
+      <text>和</text>
+      <text class="agreement-link" bindtap="showPrivacy">《隐私政策》</text>
+    </view>
+  </view>
+
+  <!-- 登录成功提示 -->
+  <view class="login-success" wx:if="{{loginSuccess}}">
+    <icon type="success" size="60" color="#4cd964"></icon>
+    <text>登录成功！</text>
+  </view>
+</view>

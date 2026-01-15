@@ -1,0 +1,95 @@
+<!-- achievement.wxml -->
+<view class="container">
+  <view class="page-title">我的成就</view>
+  
+  <!-- 成就统计 -->
+  <view class="achievement-stats card">
+    <view class="stat-item">
+      <text class="stat-number">{{completedCount}}</text>
+      <text class="stat-label">已完成</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-number">{{totalCount}}</text>
+      <text class="stat-label">总成就</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-number">{{completedCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0}}</text>
+      <text class="stat-label">完成率%</text>
+    </view>
+  </view>
+  
+  <!-- 标签切换 -->
+  <view class="tab-bar">
+    <view class="tab-item {{activeTab === 'all' ? 'active' : ''}}" bindtap="switchTab" data-tab="all">
+      <text>全部</text>
+    </view>
+    <view class="tab-item {{activeTab === 'completed' ? 'active' : ''}}" bindtap="switchTab" data-tab="completed">
+      <text>已完成</text>
+    </view>
+    <view class="tab-item {{activeTab === 'in_progress' ? 'active' : ''}}" bindtap="switchTab" data-tab="in_progress">
+      <text>进行中</text>
+    </view>
+  </view>
+  
+  <!-- 成就列表 -->
+  <view class="achievement-list">
+    <!-- 加载中 -->
+    <view wx:if="{{isLoading}}" class="loading-container">
+      <text>加载中...</text>
+    </view>
+    
+    <!-- 空状态 -->
+    <view wx:elif="{{!isLoading && achievements.length === 0}}" class="empty-container">
+      <text>暂无成就</text>
+    </view>
+    
+    <!-- 成就项 -->
+    <view wx:else class="achievement-items">
+      <view class="achievement-item card" wx:for="{{achievements}}" wx:key="id" bindtap="goToAchievementDetail" data-id="{{item.id}}">
+        <view class="achievement-header">
+          <view class="achievement-info">
+            <text class="achievement-name">{{item.achievementName}}</text>
+            <text class="achievement-type">{{item.achievementType}}</text>
+            <text class="achievement-level level-{{item.level}}">{{['初级', '中级', '高级', '专家级'][item.level - 1]}}</text>
+          </view>
+          <view class="achievement-status {{item.isCompleted ? 'completed' : 'in-progress'}}">
+            <text>{{item.isCompleted ? '已完成' : '进行中'}}</text>
+          </view>
+        </view>
+        
+        <view class="achievement-description">
+          <text>{{item.description}}</text>
+        </view>
+        
+        <view class="achievement-progress">
+          <view class="progress-bar">
+            <view class="progress-fill" style="width: {{(item.progress / item.target) * 100}}%"></view>
+          </view>
+          <view class="progress-text">
+            <text>{{item.progress}}/{{item.target}}</text>
+          </view>
+        </view>
+        
+        <view class="achievement-footer">
+          <view class="achievement-reward">
+            <text class="reward-icon">🎁</text>
+            <text class="reward-points">奖励积分：{{item.rewardPoints}}</text>
+          </view>
+          <view class="achievement-completed-time" wx:if="{{item.isCompleted}}">
+            <text>完成于：{{item.completedAt}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 同步按钮 -->
+  <view class="sync-button-container">
+    <button class="sync-button" bindtap="syncAchievements">
+      <text class="sync-icon">🔄</text>
+      <text>同步成就进度</text>
+    </button>
+  </view>
+</view>

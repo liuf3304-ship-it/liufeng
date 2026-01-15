@@ -1,0 +1,68 @@
+<!-- dailyPoint.wxml -->
+<view class="container">
+  <!-- 加载中 -->
+  <view wx:if="{{isLoading}}" class="loading-container">
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 考点内容 -->
+  <view wx:elif="{{todayPoint}}" class="content">
+    <!-- 考点标题 -->
+    <view class="point-header">
+      <text class="point-title">{{todayPoint.pointTitle}}</text>
+      <view class="point-meta">
+        <text class="point-date">{{todayPoint.date}}</text>
+        <text class="point-tag">{{todayPoint.examPoint}}</text>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-buttons">
+      <button class="btn btn-secondary" bindtap="collectPoint">
+        <text class="btn-text">收藏考点</text>
+      </button>
+      <button class="btn btn-secondary" bindtap="addToErrorBook">
+        <text class="btn-text">加入错题本</text>
+      </button>
+    </view>
+
+    <!-- 考点解析 -->
+    <view class="section">
+      <text class="section-title">考点解析</text>
+      <view class="section-content">
+        <text class="content-text">{{todayPoint.pointContent}}</text>
+      </view>
+    </view>
+
+    <!-- 典型例题 -->
+    <view class="section card" wx:if="{{todayPoint.typicalExample}}">
+      <text class="section-title">典型例题</text>
+      <view class="section-content">
+        <text class="example-text">{{todayPoint.typicalExample}}</text>
+      </view>
+    </view>
+
+    <!-- 解题技巧 -->
+    <view class="section" wx:if="{{todayPoint.solvingSkills}}">
+      <text class="section-title">解题技巧</text>
+      <view class="section-content">
+        <text class="skills-text">{{todayPoint.solvingSkills}}</text>
+      </view>
+    </view>
+
+    <!-- 底部操作 -->
+    <view class="bottom-section">
+      <button class="btn btn-primary" bindtap="goToPastPoints">
+        <text class="btn-text">查看往期考点</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:else class="empty-container">
+    <text class="empty-text">今日考点数据加载失败</text>
+    <button class="btn btn-primary" bindtap="getTodayPoint">
+      <text class="btn-text">重新加载</text>
+    </button>
+  </view>
+</view>

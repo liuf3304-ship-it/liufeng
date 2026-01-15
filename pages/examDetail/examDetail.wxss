@@ -1,0 +1,484 @@
+/* examDetail.wxss */
+
+/* 全局样式 */
+.container {
+  background-color: #f5f7fa;
+  min-height: 100vh;
+  padding: 16rpx;
+  box-sizing: border-box;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .container {
+    background-color: #1a1a1a;
+  }
+}
+
+/* 加载中 */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 600rpx;
+}
+
+.loading-text {
+  font-size: 28rpx;
+  color: #999999;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .loading-text {
+    color: #666666;
+  }
+}
+
+/* 空状态 */
+.empty-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 600rpx;
+  gap: 24rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #999999;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .empty-text {
+    color: #666666;
+  }
+}
+
+/* 内容区 */
+.content {
+  padding-bottom: 32rpx;
+}
+
+/* 卡片样式 */
+.card {
+  background-color: #ffffff;
+  border-radius: 8rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  padding: 24rpx;
+  margin-bottom: 24rpx;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .card {
+    background-color: #2a2a2a;
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* 队伍信息 */
+.team-info {
+  margin-bottom: 24rpx;
+}
+
+.team-name {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #1a1a1a;
+  margin-bottom: 16rpx;
+  display: block;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .team-name {
+    color: #ffffff;
+  }
+}
+
+.team-status {
+  display: inline-block;
+  padding: 6rpx 16rpx;
+  background-color: #e8f0fe;
+  border-radius: 16rpx;
+  margin-bottom: 16rpx;
+}
+
+.status-text {
+  font-size: 20rpx;
+  color: #007aff;
+  font-weight: bold;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .team-status {
+    background-color: #1e3a8a;
+  }
+  
+  .status-text {
+    color: #64b5f6;
+  }
+}
+
+/* 队伍元信息 */
+.team-meta {
+  margin-bottom: 16rpx;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8rpx;
+}
+
+.meta-item:last-child {
+  margin-bottom: 0;
+}
+
+.meta-label {
+  font-size: 24rpx;
+  color: #666666;
+  width: 100rpx;
+  flex-shrink: 0;
+}
+
+.meta-value {
+  font-size: 24rpx;
+  color: #333333;
+  flex: 1;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .meta-label {
+    color: #999999;
+  }
+  
+  .meta-value {
+    color: #cccccc;
+  }
+}
+
+/* 考点覆盖 */
+.exam-point {
+  margin-top: 16rpx;
+  padding: 12rpx;
+  background-color: #f5f7fa;
+  border-radius: 6rpx;
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .exam-point {
+    background-color: #1a1a1a;
+  }
+}
+
+.point-label {
+  font-size: 24rpx;
+  color: #666666;
+  font-weight: bold;
+}
+
+.point-value {
+  font-size: 24rpx;
+  color: #333333;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .point-label {
+    color: #999999;
+  }
+  
+  .point-value {
+    color: #cccccc;
+  }
+}
+
+/* 操作按钮 */
+.action-buttons {
+  display: flex;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* 成员列表 */
+.members-section {
+  margin-bottom: 24rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #1a1a1a;
+  margin-bottom: 16rpx;
+  display: block;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .section-title {
+    color: #ffffff;
+  }
+}
+
+.members-list {
+  margin-top: 16rpx;
+}
+
+.member-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16rpx 0;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+
+.member-item:last-child {
+  border-bottom: none;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .member-item {
+    border-bottom-color: #333333;
+  }
+}
+
+.member-info {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.member-avatar {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  background-color: #e1e5e9;
+}
+
+.member-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.member-name {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.member-role {
+  font-size: 20rpx;
+  color: #007aff;
+  background-color: #e8f0fe;
+  padding: 4rpx 12rpx;
+  border-radius: 12rpx;
+  align-self: flex-start;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .member-name {
+    color: #ffffff;
+  }
+  
+  .member-role {
+    background-color: #1e3a8a;
+    color: #64b5f6;
+  }
+}
+
+.member-status {
+  padding: 6rpx 16rpx;
+  background-color: #e8f0fe;
+  border-radius: 16rpx;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .member-status {
+    background-color: #1e3a8a;
+  }
+}
+
+/* 模态框 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 600rpx;
+  max-height: 80vh;
+  overflow-y: auto;
+  z-index: 999;
+  background-color: #ffffff;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .modal-content {
+    background-color: #2a2a2a;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 24rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .modal-header {
+    border-bottom-color: #333333;
+  }
+}
+
+.modal-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .modal-title {
+    color: #ffffff;
+  }
+}
+
+.modal-close {
+  font-size: 40rpx;
+  color: #666666;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.modal-close:active {
+  color: #333333;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .modal-close {
+    color: #999999;
+  }
+  
+  .modal-close:active {
+    color: #ffffff;
+  }
+}
+
+.modal-body {
+  padding: 24rpx;
+}
+
+.invite-tip {
+  margin-bottom: 24rpx;
+}
+
+.tip-text {
+  font-size: 28rpx;
+  color: #333333;
+  line-height: 1.5;
+  display: block;
+  text-align: center;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .tip-text {
+    color: #cccccc;
+  }
+}
+
+.invite-actions {
+  display: flex;
+  justify-content: center;
+}
+
+/* 按钮样式 */
+.btn {
+  flex: 1;
+  max-width: 300rpx;
+  padding: 16rpx 32rpx;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary {
+  background-color: #1a73e8;
+  color: #ffffff;
+}
+
+.btn-secondary {
+  background-color: #f5f7fa;
+  color: #333333;
+  border: 2rpx solid #e1e5e9;
+}
+
+.btn-primary:active {
+  background-color: #1557b0;
+}
+
+.btn-secondary:active {
+  background-color: #e1e5e9;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .btn-primary {
+    background-color: #4285f4;
+  }
+  
+  .btn-secondary {
+    background-color: #1a1a1a;
+    color: #cccccc;
+    border-color: #333333;
+  }
+  
+  .btn-secondary:active {
+    background-color: #333333;
+  }
+}
+
+.btn-text {
+  font-size: 28rpx;
+  font-weight: 500;
+}

@@ -1,0 +1,73 @@
+<!-- detail.wxml -->
+<view class="container">
+  <view class="back-button" bindtap="goBack">
+    <text class="back-icon">←</text>
+    <text class="back-text">返回</text>
+  </view>
+  
+  <view class="detail-container">
+    <!-- 加载中 -->
+    <view wx:if="{{isLoading}}" class="loading-container">
+      <text>加载中...</text>
+    </view>
+    
+    <!-- 成就详情 -->
+    <view wx:elif="{{achievement.id}}" class="achievement-detail card">
+      <!-- 成就头部 -->
+      <view class="achievement-header">
+        <view class="achievement-name">{{achievement.achievementName}}</view>
+        <view class="achievement-level level-{{achievement.level}}">{{['初级', '中级', '高级', '专家级'][achievement.level - 1]}}</view>
+      </view>
+      
+      <!-- 成就状态 -->
+      <view class="achievement-status {{achievement.isCompleted ? 'completed' : 'in-progress'}}">
+        <text>{{achievement.isCompleted ? '已完成' : '进行中'}}</text>
+      </view>
+      
+      <!-- 成就描述 -->
+      <view class="achievement-description">
+        <text>{{achievement.description}}</text>
+      </view>
+      
+      <!-- 成就进度 -->
+      <view class="achievement-progress">
+        <view class="progress-info">
+          <text class="progress-title">完成进度</text>
+          <text class="progress-value">{{achievement.progress}}/{{achievement.target}}</text>
+        </view>
+        <view class="progress-bar">
+          <view class="progress-fill" style="width: {{(achievement.progress / achievement.target) * 100}}%"></view>
+        </view>
+        <view class="progress-percentage">
+          <text>{{Math.round((achievement.progress / achievement.target) * 100)}}%</text>
+        </view>
+      </view>
+      
+      <!-- 成就奖励 -->
+      <view class="achievement-reward">
+        <text class="reward-title">奖励</text>
+        <view class="reward-content">
+          <text class="reward-icon">🎁</text>
+          <text class="reward-points">{{achievement.rewardPoints}} 积分</text>
+        </view>
+      </view>
+      
+      <!-- 完成时间 -->
+      <view class="achievement-completed-time" wx:if="{{achievement.isCompleted && achievement.completedAt}}">
+        <text class="completed-label">完成时间：</text>
+        <text class="completed-value">{{achievement.completedAt}}</text>
+      </view>
+      
+      <!-- 成就类型 -->
+      <view class="achievement-type">
+        <text class="type-label">成就类型：</text>
+        <text class="type-value">{{achievement.achievementType}}</text>
+      </view>
+    </view>
+    
+    <!-- 错误状态 -->
+    <view wx:else class="error-container">
+      <text>成就不存在或已删除</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,110 @@
+<!-- examDetail.wxml -->
+<view class="container">
+  <!-- 加载中 -->
+  <view wx:if="{{isLoading}}" class="loading-container">
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 队伍详情 -->
+  <view wx:elif="{{teamDetail}}" class="content">
+    <!-- 队伍基本信息 -->
+    <view class="team-info card">
+      <text class="team-name">{{teamDetail.teamName}}</text>
+      <view class="team-status">
+        <text class="status-text">{{teamDetail.status === 'recruiting' ? '招募中' : teamDetail.status === 'ready' ? '准备中' : teamDetail.status === 'started' ? '进行中' : '已结束'}}</text>
+      </view>
+      <view class="team-meta">
+        <view class="meta-item">
+          <text class="meta-label">模考：</text>
+          <text class="meta-value">{{teamDetail.examName}}</text>
+        </view>
+        <view class="meta-item">
+          <text class="meta-label">时长：</text>
+          <text class="meta-value">{{teamDetail.examDuration}}分钟</text>
+        </view>
+        <view class="meta-item">
+          <text class="meta-label">开始时间：</text>
+          <text class="meta-value">{{teamDetail.startTime}}</text>
+        </view>
+      </view>
+      <view class="exam-point" wx:if="{{teamDetail.examPoint}}">
+        <text class="point-label">考点覆盖：</text>
+        <text class="point-value">{{teamDetail.examPoint}}</text>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-buttons">
+      <!-- 非成员状态 -->
+      <view wx:if="{{!isMember}}">
+        <button class="btn btn-primary" bindtap="joinTeam">
+          <text class="btn-text">加入队伍</text>
+        </button>
+      </view>
+      
+      <!-- 成员状态 -->
+      <view wx:elif="{{isMember}}">
+        <button class="btn btn-secondary" bindtap="showInviteModal">
+          <text class="btn-text">邀请搭子</text>
+        </button>
+        <button class="btn btn-secondary" bindtap="quitTeam">
+          <text class="btn-text">退出队伍</text>
+        </button>
+        <!-- 队长状态 -->
+        <button class="btn btn-primary" bindtap="startExam" wx:if="{{isCreator && teamDetail.status === 'recruiting' || teamDetail.status === 'ready'}}">
+          <text class="btn-text">启动模考</text>
+        </button>
+      </view>
+    </view>
+
+    <!-- 成员列表 -->
+    <view class="members-section card">
+      <text class="section-title">队伍成员 ({{members.length}}/{{teamDetail.memberLimit}})</text>
+      <view class="members-list">
+        <view class="member-item" wx:for="{{members}}" wx:key="userId">
+          <view class="member-info">
+            <image 
+              class="member-avatar" 
+              src="{{item.User.avatar || '/assets/images/default-avatar.png'}}"
+              mode="aspectFill"
+            ></image>
+            <view class="member-detail">
+              <view class="member-name">{{item.User.nickname}}</view>
+              <view class="member-role">{{item.role === 'creator' ? '队长' : '成员'}}</view>
+            </view>
+          </view>
+          <view class="member-status">
+            <text class="status-text">{{item.status === 'joined' ? '已加入' : item.status === 'ready' ? '已准备' : item.status === 'started' ? '考试中' : '已完成'}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:else class="empty-container">
+    <text class="empty-text">队伍详情加载失败</text>
+    <button class="btn btn-primary" bindtap="getTeamDetail">
+      <text class="btn-text">重新加载</text>
+    </button>
+  </view>
+
+  <!-- 邀请搭子模态框 -->
+  <view class="modal-overlay" wx:if="{{showInviteModal}}" bindtap="hideInviteModal"></view>
+  <view class="modal-content card" wx:if="{{showInviteModal}}" catchtap="">
+    <view class="modal-header">
+      <text class="modal-title">邀请搭子</text>
+      <text class="modal-close" bindtap="hideInviteModal">×</text>
+    </view>
+    <view class="modal-body">
+      <view class="invite-tip">
+        <text class="tip-text">邀请你的好友加入模考队伍，一起备考！</text>
+      </view>
+      <view class="invite-actions">
+        <button class="btn btn-primary" bindtap="invitePartner">
+          <text class="btn-text">分享邀请</text>
+        </button>
+      </view>
+    </view>
+  </view>
+</view>

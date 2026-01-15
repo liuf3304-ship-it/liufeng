@@ -1,0 +1,157 @@
+<!-- examTeam.wxml -->
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <text class="page-title">模考组队大厅</text>
+    <button class="btn btn-primary" bindtap="showCreateModal">
+      <text class="btn-text">创建队伍</text>
+    </button>
+  </view>
+
+  <!-- 筛选栏 -->
+  <view class="filter-section">
+    <text class="filter-label">筛选条件：</text>
+    <view class="filter-tabs">
+      <view 
+        class="filter-tab {{selectedFilter === 'time' ? 'active' : ''}}" 
+        bindtap="onFilterChange" 
+        data-filter="time"
+      >
+        <text class="tab-text">按时间</text>
+      </view>
+      <view 
+        class="filter-tab {{selectedFilter === 'members' ? 'active' : ''}}" 
+        bindtap="onFilterChange" 
+        data-filter="members"
+      >
+        <text class="tab-text">按人数</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 队伍列表 -->
+  <view class="team-list">
+    <!-- 加载中 -->
+    <view wx:if="{{isLoading && examTeams.length === 0}}" class="loading-container">
+      <text class="loading-text">加载中...</text>
+    </view>
+
+    <!-- 空状态 -->
+    <view wx:elif="{{!isLoading && examTeams.length === 0}}" class="empty-container">
+      <text class="empty-text">还没有模考队伍，快来创建第一个队伍吧</text>
+    </view>
+
+    <!-- 队伍列表 -->
+    <view wx:else class="team-items">
+      <view class="team-item card" wx:for="{{examTeams}}" wx:key="teamId" bindtap="goToTeamDetail" data-teamid="{{item.teamId}}">
+        <!-- 队伍基本信息 -->
+        <view class="team-header">
+          <text class="team-name">{{item.teamName}}</text>
+          <view class="team-status">
+            <text class="status-text">{{item.status === 'recruiting' ? '招募中' : '已开始'}}</text>
+          </view>
+        </view>
+        
+        <!-- 模考信息 -->
+        <view class="exam-info">
+          <text class="exam-name">模考：{{item.examName}}</text>
+          <text class="exam-duration">时长：{{item.examDuration}}分钟</text>
+        </view>
+        
+        <!-- 队伍详情 -->
+        <view class="team-detail">
+          <view class="detail-item">
+            <text class="detail-label">创建者：</text>
+            <text class="detail-value">用户{{item.creatorId}}</text>
+          </view>
+          <view class="detail-item">
+            <text class="detail-label">成员：</text>
+            <text class="detail-value">{{item.currentMembers}}/{{item.memberLimit}}</text>
+          </view>
+          <view class="detail-item">
+            <text class="detail-label">开始时间：</text>
+            <text class="detail-value">{{item.startTime}}</text>
+          </view>
+        </view>
+
+        <!-- 考点覆盖 -->
+        <view class="exam-point" wx:if="{{item.examPoint}}">
+          <text class="point-label">考点：</text>
+          <text class="point-value">{{item.examPoint}}</text>
+        </view>
+
+        <!-- 操作按钮 -->
+        <view class="team-actions">
+          <button class="btn btn-secondary" bindtap="joinTeam" data-teamid="{{item.teamId}}" catchtap>
+            <text class="btn-text">加入队伍</text>
+          </button>
+        </view>
+      </view>
+
+      <!-- 加载更多 -->
+      <view wx:if="{{hasMore}}" class="load-more" bindtap="loadMoreTeams">
+        <text class="load-more-text">加载更多</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 创建队伍模态框 -->
+  <view class="modal-overlay" wx:if="{{showCreateModal}}" bindtap="hideCreateModal"></view>
+  <view class="modal-content card" wx:if="{{showCreateModal}}" catchtap="">
+    <view class="modal-header">
+      <text class="modal-title">创建模考队伍</text>
+      <text class="modal-close" bindtap="hideCreateModal">×</text>
+    </view>
+    <view class="modal-body">
+      <view class="form-item">
+        <text class="form-label">队伍名称</text>
+        <input 
+          class="form-input" 
+          placeholder="请输入队伍名称" 
+          value="{{newTeamName}}" 
+          bindinput="onTeamNameInput"
+        />
+      </view>
+      <view class="form-item">
+        <text class="form-label">模考ID</text>
+        <input 
+          class="form-input" 
+          placeholder="请输入模考ID" 
+          value="{{newExamId}}" 
+          bindinput="onExamIdInput"
+        />
+      </view>
+      <view class="form-item">
+        <text class="form-label">成员上限</text>
+        <input 
+          class="form-input" 
+          type="number" 
+          placeholder="请输入成员上限" 
+          value="{{newMemberLimit}}" 
+          bindinput="onMemberLimitInput"
+        />
+      </view>
+      <view class="form-item">
+        <text class="form-label">开始时间</text>
+        <picker 
+          mode="datetime" 
+          value="{{newStartTime}}" 
+          start="{{new Date().toISOString().split('T')[0]}}T00:00" 
+          bindchange="onStartTimeChange"
+        >
+          <view class="picker-input">
+            {{newStartTime || '请选择开始时间'}}
+          </view>
+        </picker>
+      </view>
+    </view>
+    <view class="modal-footer">
+      <button class="btn btn-secondary" bindtap="hideCreateModal">
+        <text class="btn-text">取消</text>
+      </button>
+      <button class="btn btn-primary" bindtap="createTeam">
+        <text class="btn-text">创建</text>
+      </button>
+    </view>
+  </view>
+</view>

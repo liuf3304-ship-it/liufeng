@@ -1,0 +1,39 @@
+<!-- notification.wxml -->
+<view class="container">
+  <view class="page-title">消息通知</view>
+
+  <view class="notification-list">
+    <view class="notification-item card" wx:for="{{notifications}}" wx:key="id">
+      <view class="notification-header">
+        <image src="{{item.avatar || '/assets/images/default-avatar.png'}}" class="avatar"></image>
+        <view class="notification-info">
+          <view class="notification-title">{{item.title}}</view>
+          <view class="notification-time">{{item.createTime}}</view>
+        </view>
+        <view class="notification-status" wx:if="{{!item.isRead}}">
+          <view class="unread-dot"></view>
+        </view>
+      </view>
+      <view class="notification-content">{{item.content}}</view>
+      <view class="notification-actions" wx:if="{{item.actions && item.actions.length > 0}}">
+        <button class="btn btn-sm" wx:for="{{item.actions}}" wx:for-item="action" wx:key="action" bindtap="handleAction" data-id="{{item.id}}" data-action="{{action}}">
+          {{action}}
+        </button>
+      </view>
+    </view>
+
+    <view class="empty" wx:if="{{notifications.length === 0}}">
+      <image src="/assets/icons/notification-empty.png" class="empty-icon"></image>
+      <text class="empty-text">暂无消息通知</text>
+    </view>
+  </view>
+
+  <view class="footer-actions" wx:if="{{notifications.length > 0}}">
+    <button class="btn btn-secondary" bindtap="markAllAsRead">
+      标记全部已读
+    </button>
+    <button class="btn btn-danger" bindtap="clearAllNotifications">
+      清空全部消息
+    </button>
+  </view>
+</view>

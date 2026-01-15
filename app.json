@@ -1,0 +1,79 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/match/match",
+    "pages/checkin/checkin",
+    "pages/profile/profile",
+    "pages/login/login",
+    "pages/profile/partners",
+    "pages/profile/info",
+    "pages/profile/notification",
+    "pages/profile/deposit",
+    "pages/chat/chat",
+    "pages/achievement/achievement",
+    "pages/achievement/detail",
+    "pages/errorBook/errorBook",
+    "pages/errorSquare/errorSquare",
+    "pages/dailyPoint/dailyPoint",
+    "pages/examTeam/examTeam",
+    "pages/examDetail/examDetail",
+    "pages/dataAnalysis/dataAnalysis",
+    "pages/feedback/feedback"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#007aff",
+    "navigationBarTitleText": "备考搭子",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#007aff",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "assets/icons/index.png",
+        "selectedIconPath": "assets/icons/index-active.png"
+      },
+      {
+        "pagePath": "pages/match/match",
+        "text": "匹配搭子",
+        "iconPath": "assets/icons/match.png",
+        "selectedIconPath": "assets/icons/match-active.png"
+      },
+      {
+        "pagePath": "pages/checkin/checkin",
+        "text": "打卡",
+        "iconPath": "assets/icons/checkin.png",
+        "selectedIconPath": "assets/icons/checkin-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "assets/icons/profile.png",
+        "selectedIconPath": "assets/icons/profile-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于匹配附近的备考搭子"
+    },
+    "scope.record": {
+      "desc": "用于语音打卡功能"
+    },
+    "scope.camera": {
+      "desc": "用于拍照打卡功能"
+    }
+  },
+  "usingComponents": {
+    "checkin-history": "/components/CheckinHistory",
+    "countdown": "/components/Countdown",
+    "dissolve-confirm": "/components/DissolveConfirm"
+  }
+}

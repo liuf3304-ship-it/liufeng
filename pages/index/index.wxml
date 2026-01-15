@@ -1,0 +1,77 @@
+<!--index.wxml-->
+<view class="container">
+  <!-- 未登录状态 -->
+  <view class="login-prompt card" wx:if="{{!isLoggedIn}}">
+    <view class="empty">
+      <image src="/assets/icons/login.png" style="width: 120rpx; height: 120rpx; margin-bottom: 20rpx;"></image>
+      <view class="login-text">请先登录</view>
+      <button class="btn" bindtap="goToLogin">立即登录</button>
+    </view>
+  </view>
+  
+  <!-- 登录状态内容 -->
+  <view wx:else>
+    <!-- 每日考点卡片（顶部30%区域） -->
+    <view class="daily-point-card" bindtap="goToDailyPoint" wx:if="{{todayPoint}}">
+      <view class="daily-point-tag">今日必学</view>
+      <view class="daily-point-header">
+        <view class="daily-point-title">{{todayPoint.pointTitle}}</view>
+        <view class="daily-point-date">{{currentDate}}</view>
+      </view>
+      <view class="daily-point-preview">{{todayPoint.pointContent.substring(0, 100)}}{{todayPoint.pointContent.length > 100 ? '...' : ''}}</view>
+      <view class="daily-point-footer">
+        <view class="daily-point-exam-type">{{todayPoint.examPoint}}</view>
+        <view class="daily-point-action">查看详情</view>
+      </view>
+    </view>
+    
+    <!-- 功能入口网格（中间50%区域） -->
+    <view class="function-grid">
+      <view class="function-item" bindtap="goToMatch">
+        <view class="function-icon">
+          <image src="/assets/icons/partner.png" mode="aspectFit"></image>
+        </view>
+        <view class="function-text">搭子匹配</view>
+      </view>
+      <view class="function-item" bindtap="goToCheckin">
+        <view class="function-icon">
+          <image src="/assets/icons/checkin.png" mode="aspectFit"></image>
+        </view>
+        <view class="function-text">打卡签到</view>
+      </view>
+      <view class="function-item" bindtap="goToErrorBook">
+        <view class="function-icon">
+          <image src="/assets/icons/error.png" mode="aspectFit"></image>
+        </view>
+        <view class="function-text">共享错题本</view>
+      </view>
+      <view class="function-item" bindtap="goToExamTeam">
+        <view class="function-icon">
+          <image src="/assets/icons/exam.png" mode="aspectFit"></image>
+        </view>
+        <view class="function-text">模考组队</view>
+      </view>
+    </view>
+    
+    <!-- 学习概览卡片（底部20%区域） -->
+    <view class="study-overview card">
+      <view class="overview-title">学习概览</view>
+      <view class="overview-stats">
+        <view class="overview-item" bindtap="goToCheckin">
+          <view class="overview-value">{{totalCheckins}}</view>
+          <view class="overview-label">累计打卡天数</view>
+        </view>
+        <view class="overview-divider"></view>
+        <view class="overview-item" bindtap="goToErrorBook">
+          <view class="overview-value">{{totalErrorQuestions}}</view>
+          <view class="overview-label">错题总数</view>
+        </view>
+        <view class="overview-divider"></view>
+        <view class="overview-item" bindtap="goToDataAnalysis">
+          <view class="overview-value">{{examAverageScore}}</view>
+          <view class="overview-label">模考平均分</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

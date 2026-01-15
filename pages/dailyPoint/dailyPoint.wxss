@@ -1,0 +1,271 @@
+/* dailyPoint.wxss */
+
+/* 全局样式 */
+.container {
+  background-color: #f5f7fa;
+  min-height: 100vh;
+  padding: 16rpx;
+  box-sizing: border-box;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .container {
+    background-color: #1a1a1a;
+  }
+}
+
+/* 加载中 */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 600rpx;
+}
+
+.loading-text {
+  font-size: 28rpx;
+  color: #999999;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .loading-text {
+    color: #666666;
+  }
+}
+
+/* 空状态 */
+.empty-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 600rpx;
+  gap: 24rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #999999;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .empty-text {
+    color: #666666;
+  }
+}
+
+/* 考点内容 */
+.content {
+  padding-bottom: 32rpx;
+}
+
+/* 考点标题 */
+.point-header {
+  margin-bottom: 24rpx;
+  padding: 24rpx;
+  background-color: #ffffff;
+  border-radius: 8rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.08);
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .point-header {
+    background-color: #2a2a2a;
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.3);
+  }
+}
+
+.point-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #1a1a1a;
+  line-height: 1.4;
+  margin-bottom: 16rpx;
+  display: block;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .point-title {
+    color: #ffffff;
+  }
+}
+
+.point-meta {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  flex-wrap: wrap;
+}
+
+.point-date {
+  font-size: 24rpx;
+  color: #666666;
+}
+
+.point-tag {
+  font-size: 20rpx;
+  color: #007aff;
+  background-color: #e8f0fe;
+  padding: 6rpx 16rpx;
+  border-radius: 16rpx;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .point-date {
+    color: #999999;
+  }
+  
+  .point-tag {
+    color: #64b5f6;
+    background-color: #1e3a8a;
+  }
+}
+
+/* 操作按钮 */
+.action-buttons {
+  display: flex;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+  padding: 0 16rpx;
+}
+
+/* 卡片样式 */
+.card {
+  background-color: #ffffff;
+  border-radius: 8rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.08);
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .card {
+    background-color: #2a2a2a;
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* 章节样式 */
+.section {
+  margin-bottom: 24rpx;
+  padding: 24rpx;
+  background-color: #ffffff;
+  border-radius: 8rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.08);
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .section {
+    background-color: #2a2a2a;
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.3);
+  }
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #1a1a1a;
+  margin-bottom: 16rpx;
+  display: block;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .section-title {
+    color: #ffffff;
+  }
+}
+
+.section-content {
+  margin-top: 16rpx;
+}
+
+.content-text, .example-text, .skills-text {
+  font-size: 28rpx;
+  color: #333333;
+  line-height: 1.6;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .content-text, .example-text, .skills-text {
+    color: #cccccc;
+  }
+}
+
+.example-text {
+  font-style: italic;
+}
+
+.skills-text {
+  white-space: pre-line;
+}
+
+/* 底部章节 */
+.bottom-section {
+  margin-top: 32rpx;
+  padding: 0 16rpx;
+  display: flex;
+  justify-content: center;
+}
+
+/* 按钮样式 */
+.btn {
+  flex: 1;
+  padding: 16rpx 32rpx;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary {
+  background-color: #1a73e8;
+  color: #ffffff;
+}
+
+.btn-secondary {
+  background-color: #f5f7fa;
+  color: #333333;
+  border: 2rpx solid #e1e5e9;
+}
+
+.btn-primary:active {
+  background-color: #1557b0;
+}
+
+.btn-secondary:active {
+  background-color: #e1e5e9;
+}
+
+/* 深色模式 */
+@media (prefers-color-scheme: dark) {
+  .btn-primary {
+    background-color: #4285f4;
+  }
+  
+  .btn-secondary {
+    background-color: #1a1a1a;
+    color: #cccccc;
+    border-color: #333333;
+  }
+  
+  .btn-secondary:active {
+    background-color: #333333;
+  }
+}
+
+.btn-text {
+  font-size: 28rpx;
+  font-weight: 500;
+}
