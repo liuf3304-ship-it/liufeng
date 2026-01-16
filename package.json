@@ -1,0 +1,12 @@
+{
+  "name": "exam-partner-weapp",
+  "version": "1.0.0",
+  "description": "省考搭子微信小程序",
+  "main": "app.js",
+  "scripts": {
+    "dev": "echo \"开发模式下使用微信开发者工具直接打开项目\""
+  },
+  "keywords": ["wechat", "mini-program", "exam", "partner"],
+  "author": "",
+  "license": "MIT"
+}
